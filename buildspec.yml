@@ -1,8 +1,4 @@
 version: 0.2
-  fast-fail: false | true
-  # build-list:
-  # build-matrix:
-  # build-graph:
 phases:
   install:
     on-failure: ABORT
