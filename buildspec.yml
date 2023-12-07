@@ -9,12 +9,15 @@ phases:
   pre_build:
     on-failure: ABORT
     commands:
-      - echo 'pre_build'
+      - echo 'Logging into Amazon ECR'
+      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 836449767160.dkr.ecr.ap-southeast-1.amazonaws.com
   build:
     on-failure: ABORT
     commands:
-      - echo 'build'
+      - docker build -t prod-laravel-api-base-image .
+      - docker tag prod-laravel-api-base-image:latest 836449767160.dkr.ecr.ap-southeast-1.amazonaws.com/prod-laravel-api-base-image:latest
   post_build:
     on-failure: ABORT
     commands:
-      - echo 'post_build'
+      - docker images ls -a
+      - docker push 836449767160.dkr.ecr.ap-southeast-1.amazonaws.com/prod-laravel-api-base-image:latest
